@@ -17,11 +17,12 @@ fn main() {
             vec![".jpeg", ".gif", ".jpg", ".png", ".svg", ".webp", ".ico"],
             pics,
         ),
-        (vec![".7z", ".rar", "zip"], zips),
+        (vec![".7z", ".rar", ".zip"], zips),
         (vec![".webm", ".mp4", ".mpg", ".mov"], vids),
         (vec![".docx", ".odb"], docs),
         (vec![".txt"],txts),
         (vec![".pdf"],pdfs),
+        
     ];
 
     let files = fs::read_dir(dl).unwrap();
@@ -29,10 +30,12 @@ fn main() {
     for file in files {
         let file = file.unwrap();
         for tuples in &exts {
+
+
             for extentions in &tuples.0 {
                 match Path::new(&file.path().to_str().unwrap()).file_name() {
                     Some(filename) => {
-                        if filename.to_str().unwrap().ends_with(extentions) {
+                        if filename.to_str().unwrap().to_lowercase().ends_with(extentions) {
                             println!("{}", &filename.to_str().unwrap());
 
                             let _ = fs::rename(file.path().as_os_str(), tuples.1.join(filename));
